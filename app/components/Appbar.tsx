@@ -1,15 +1,47 @@
 "use client"
 import { signIn, signOut, useSession } from "next-auth/react";
+import { motion } from "framer-motion"; // Install: npm install framer-motion
 
-export function Appbar(){
-    const session = useSession();
-    return (<>
-        <div className="flex justify-between px-5 py-2 m-2 bg-blue-300">
-            <div className="font-extrabold text-3xl">Bajaoo</div>
-            <div>
-                {session.data?.user && <button onClick={()=> signOut()} className="p-2 bg-blue-500 border rounded-3xl border-b-indigo-700">Signout</button>}
-                {!session.data?.user && <button onClick={()=> signIn()} className="p-2 bg-blue-500 border rounded-3xl border-b-indigo-700">Signin</button>} 
-            </div>
-        </div>
-    </>)
+export function Appbar() {
+  const session = useSession();
+
+  return (
+    <div className="flex justify-between items-center px-6 py-3 bg-gradient-to-r from-purple-700 via-indigo-500 to-blue-600 shadow-lg rounded-b-2xl">
+      {/* Rotating Logo + Heading */}
+      <div className="flex items-center gap-3">
+        <motion.div
+          animate={{ rotate: 360 }}
+          transition={{ repeat: Infinity, duration: 6, ease: "linear" }}
+          className="text-3xl"
+        >
+          🎵
+        </motion.div>
+        <h1 className="font-extrabold text-3xl tracking-wide text-white drop-shadow-lg">
+          <span className="text-purple-200">Baj</span>
+          <span className="text-pink-300">ao</span>
+          <span className="text-blue-200">oo</span>
+        </h1>
+      </div>
+
+      {/* Auth Buttons */}
+      <div>
+        {session.data?.user && (
+          <button
+            onClick={() => signOut()}
+            className="px-4 py-2 bg-white/20 text-white font-medium rounded-full border border-white/30 hover:bg-white/30 transition-colors backdrop-blur-sm"
+          >
+            Sign Out
+          </button>
+        )}
+        {!session.data?.user && (
+          <button
+            onClick={() => signIn()}
+            className="px-4 py-2 bg-white/20 text-white font-medium rounded-full border border-white/30 hover:bg-white/30 transition-colors backdrop-blur-sm"
+          >
+            Sign In
+          </button>
+        )}
+      </div>
+    </div>
+  );
 }
